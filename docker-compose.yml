@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  web:
+    build:
+      context: .
+      args:
+        POSTGRES_PASSWORD: $P_PASS
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+  db:
+    image: postgres:14.2-alpine
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=$P_PASS
+    volumes:
+      - PGDATA:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+volumes:
+  PGDATA:
