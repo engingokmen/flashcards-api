@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  Session,
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -33,28 +32,20 @@ export class UsersController {
     return user;
   }
 
-  @Post('/signout')
-  signout(@Session() session: any) {
-    session.userId = null;
-  }
-
   @Post('/signup')
-  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.signup(body.email, body.password);
-    session.userId = user.id;
-    return user;
+  async createUser(@Body() body: CreateUserDto) {
+    const token = await this.authService.signup(body.email, body.password);
+    return JSON.stringify({ token });
   }
 
   @Post('/signin')
-  async signin(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.signin(body.email, body.password);
-    session.userId = user.id;
-    return user;
+  async signin(@Body() body: CreateUserDto) {
+    const token = await this.authService.signin(body.email, body.password);
+    return JSON.stringify({ token });
   }
 
   @Get('/:id')
   findUser(@Param('id') id: string) {
-    console.log('handler is running');
     return this.usersService.findOne(parseInt(id));
   }
 

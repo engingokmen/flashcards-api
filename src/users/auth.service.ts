@@ -6,6 +6,7 @@ import {
 import { UsersService } from './users.service';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
+import { sign } from 'jsonwebtoken';
 
 const scrypt = promisify(_scrypt);
 
@@ -27,8 +28,14 @@ export class AuthService {
     // join the hashed result and salt together
     const result = salt + '.' + hash.toString('hex');
     const user = await this.usersService.create(email, result);
+    const obj = {
+      ...user,
+      exp: Math.floor(Date.now() / 1000) + 60,
+    };
 
-    return user;
+    const token = sign(obj, 'test');
+
+    return token;
   }
 
   async signin(email: string, password: string) {
@@ -46,6 +53,12 @@ export class AuthService {
       throw new BadRequestException('bad password');
     }
 
-    return user;
+    const obj = {
+      ...user,
+      exp: Math.floor(Date.now() / 1000) + 60,
+    };
+    const token = sign(obj, 'test');
+
+    return token;
   }
 }
