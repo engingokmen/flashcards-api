@@ -5,8 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
-import { CardsModule } from './cards/cards.module';
-import { Card } from './cards/card.entity';
+import { SetsModule } from './sets/sets.module';
+import { Set } from './sets/set.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,15 +22,15 @@ import { Card } from './cards/card.entity';
           host: config.get<string>('DB_HOST'),
           port: 5432,
           username: DB_NAME,
-          password: config.get<string>('P_PASS'),
+          password: config.get<string>('POSTGRES_PASSWORD'),
           database: DB_NAME,
-          entities: [User, Card],
+          entities: [User, Set],
           synchronize: true,
         };
       },
     }),
     UsersModule,
-    CardsModule,
+    SetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -55,7 +55,7 @@ export class AuthService {
 
     const obj = {
       ...user,
-      exp: Math.floor(Date.now() / 1000) + 60,
+      exp: Math.floor(Date.now() / 1000) + 60*60*24,
     };
     const token = sign(obj, 'test');
 

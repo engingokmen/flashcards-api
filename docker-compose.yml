@@ -4,7 +4,7 @@ services:
     build:
       context: .
       args:
-        POSTGRES_PASSWORD: $P_PASS
+        POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     ports:
       - '3000:3000'
     depends_on:
@@ -13,7 +13,7 @@ services:
     image: postgres:14.2-alpine
     restart: always
     environment:
-      - POSTGRES_PASSWORD=$P_PASS
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
     volumes:
       - PGDATA:/var/lib/postgresql/data
     ports:

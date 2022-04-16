@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { Card } from 'src/cards/card.entity';
+import { Set } from 'src/sets/set.entity';
 import {
   Entity,
   Column,
@@ -22,8 +22,8 @@ export class User {
   @Exclude()
   password: string;
 
-  @OneToMany(()=>Card, (card) => card.user)
-  card: Card[]
+  @OneToMany(()=>Set, (set) => set.user)
+  set: Set[]
 
   @AfterInsert()
   logInsert() {

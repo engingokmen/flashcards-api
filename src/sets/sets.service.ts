@@ -2,20 +2,20 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
-import { Card } from './card.entity';
+import { Set } from './set.entity';
 
 @Injectable()
-export class CardsService {
-    constructor(@InjectRepository(Card) private repo: Repository<Card>) {}
+export class SetsService {
+    constructor(@InjectRepository(Set) private repo: Repository<Set>) {}
 
-    async create(term:string, definition:string, user:User) {
-        const card = this.repo.create({ term, definition, user });
+    async create(name:string, user:User) {
+        const set = this.repo.create({ name, user });
         var result;
         try {
-            result = await this.repo.save(card);
+            result = await this.repo.save(set);
         }catch(err) {
             if(err.code === "23505") {
-                throw new BadRequestException('Term is already defined');
+                throw new BadRequestException('The set is already defined');
             }
         }
         return result

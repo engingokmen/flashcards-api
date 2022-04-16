@@ -7,16 +7,13 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Card {
+export class Set {
   @PrimaryGeneratedColumn()
   id:number
 
   @Column({unique:true})
-  term: string;
+  name: string;
 
-  @Column()
-  definition: string;
-
-  @ManyToOne(()=>User, (user) => user.card)
+  @ManyToOne(()=>User, (user) => user.set)
   user: User
 }
