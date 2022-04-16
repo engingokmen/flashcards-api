@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Card } from 'src/cards/card.entity';
 import {
   Entity,
   Column,
@@ -6,6 +7,7 @@ import {
   AfterInsert,
   AfterUpdate,
   AfterRemove,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -19,6 +21,9 @@ export class User {
   @Column()
   @Exclude()
   password: string;
+
+  @OneToMany(()=>Card, (card) => card.user)
+  card: Card[]
 
   @AfterInsert()
   logInsert() {

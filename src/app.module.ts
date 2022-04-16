@@ -4,9 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { ReportsModule } from './reports/reports.module';
 import { User } from './users/user.entity';
-import { Report } from './reports/report.entity';
+import { CardsModule } from './cards/cards.module';
+import { Card } from './cards/card.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -24,13 +24,13 @@ import { Report } from './reports/report.entity';
           username: DB_NAME,
           password: config.get<string>('P_PASS'),
           database: DB_NAME,
-          entities: [User, Report],
+          entities: [User, Card],
           synchronize: true,
         };
       },
     }),
     UsersModule,
-    ReportsModule,
+    CardsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

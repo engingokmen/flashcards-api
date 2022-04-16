@@ -30,7 +30,7 @@ export class AuthService {
     const user = await this.usersService.create(email, result);
     const obj = {
       ...user,
-      exp: Math.floor(Date.now() / 1000) + 60,
+      exp: Math.floor(Date.now() / 1000) + 24*60*60,
     };
 
     const token = sign(obj, 'test');
