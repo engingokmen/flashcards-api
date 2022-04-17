@@ -6,22 +6,20 @@ import { Set } from './set.entity';
 
 @Injectable()
 export class SetsService {
-    constructor(@InjectRepository(Set) private repo: Repository<Set>) {}
+  constructor(@InjectRepository(Set) private repo: Repository<Set>) {}
 
-    async create(name:string, user:User) {
-        const set = this.repo.create({ name, user });
-        var result;
-        try {
-            result = await this.repo.save(set);
-        }catch(err) {
-            if(err.code === "23505") {
-                throw new BadRequestException('The set is already defined');
-            }
-        }
-        return result
-      }
-    
-    async find(user:User) {
-        return this.repo.find({user})
+  async create(name: string, user: User) {
+    const sets = await this.find(user);
+    if (sets.findIndex((i) => i.name === name) !== -1) {
+      throw new BadRequestException('The set is already defined');
     }
+    const set = this.repo.create({ name, user });
+    const result = await this.repo.save(set);
+
+    return result;
+  }
+
+  async find(user: User) {
+    return this.repo.find({ user });
+  }
 }

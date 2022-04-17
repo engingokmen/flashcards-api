@@ -1,4 +1,4 @@
-import { User } from 'src/users/user.entity';
+import { Set } from 'src/sets/set.entity';
 import {
   Entity,
   Column,
@@ -7,16 +7,16 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Set {
+export class Term {
   @PrimaryGeneratedColumn()
   id:number
 
-  @Column({unique:true})
+  @Column()
   term: string;
 
   @Column()
   definition: string;
 
-  @ManyToOne(()=>User, (user) => user.set)
-  user: User
+  @ManyToOne(()=>Set, (set) => set.term)
+  set: Set
 }
